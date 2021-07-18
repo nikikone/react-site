@@ -161,7 +161,7 @@ function Formalization(props) {
                 setStreetError(true);
             }
 
-            var z6 = /^\d+[а-я]$/;
+            var z6 = /^\d+[а-я]*$/;
             if (!(z6.test(House))) {
                 bul = false;
                 setHouseError(true);
