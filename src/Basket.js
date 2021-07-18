@@ -94,6 +94,11 @@ function Basket(props) {
     const handleDelete = (id) => {
         const url = "http://localhost/api/carts/delete/" + id;
         props.deleteCartsFetchData(url);
+        if(cards.length <=1){
+            setTimeout(()=>{
+                window.location.assign('http://localhost:3000/');
+            }, 1000)
+        }
     }
 
     return (
