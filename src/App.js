@@ -26,78 +26,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
 }))
-/*const cardss = [
-  { title: 'Аниместафф', price: 1500 },
-  { title: 'Дакимакуры', price: 1994 },
-  { title: 'Атрибутика', price: 2000 },
-  { title: 'Косплей', price: 3000 },
-  { title: 'Товар 1', price: 4000 },
-  { title: 'Товар 2', price: 5000 },
-  { title: 'Товар 3', price: 6000 },
-  { title: 'Товар 4', price: 7000 },
-  { title: 'Аниместафф', price: 8000 },
-  { title: 'Дакимакуры', price: 9000 },
-  { title: 'Атрибутика', price: 10000 },
-  { title: 'Косплей', price: 11000 },
-  { title: 'Косплей', price: 12000 },
-];*/
 
 var personData = '[{"title":"Аниместафф","price":1500}, {"title":"Docimacura","price":1500}]';
 
 class App extends Component {
-  /*
-    componentDidMount(){
-      this.props.fetchData("http://localhost/api/products");
-    }
-  
-    const API = "http://localhost/api/";
-    const productsAPI = API + 'products';
-    const [cardss, setCardss] = useState([{id:0}, {id:0}]);
-    
-    const updateState = jsonData => {
-      //setIsloading(false);
-      setCardss(jsonData);
-    };
-  
-    useEffect(() => {
-      async function getProducts(){
-        const request = fetch(productsAPI);
-        const response = await request;
-        const parsed = await response.json();
-        return parsed;
-      }
-      getProducts().then(
-        cardss => updateState(cardss)
-      );
-    }, []);
-  */
-  //var request = new XMLHttpRequest();
-  //request.open('GET', productsAPI);
-  //request.responseType = 'json';
-  //request.send();
-  //request.onload = function(){
-  //  var prod = JSON.stringify(request.response);
-  //  const per = JSON.parse(prod);
-  //  setProducts(per);
-  //}
-
-  //let response2 = await response;
-  //if (response.ok){
-  //}
-  /*async function getProducts(){
-    const request = fetch(productsAPI);
-    const response = await request;
-    const parsed = await response.json();
-    //const cardsspers = JSON.parse(parsed);
-    setCardss(parsed);
-  }
-  getProducts();
-  */
-  //const cardss = JSON.parse(products); 
-  //const cardss = JSON.parse(products);
-  //const classes = useStyles();
-
-  //const classes = useStyles();
 
   componentDidMount(){
     this.props.fetchData("http://localhost/api/products");
