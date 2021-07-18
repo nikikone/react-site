@@ -17,36 +17,15 @@ import { Pagination } from '@material-ui/lab';
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import { personsFetchData, personsFetchDataSuccess } from './actions/products';
+import { cartsFetchData, cartsFetchDataSuccess } from './actions/carts';
+import { cartsFetchDataPostProduct, } from './actions/carts';
 
 import {
   BrowserRouter as Router,
   Link,
 } from "react-router-dom"
-import { CardMembershipSharp, MinimizeOutlined } from '@material-ui/icons';
 
 
-/*const cardss = [["Аниме стафф", "Бенто, Зонты, Очки, Часы"],
-["Дакимакуры", ""],
-["Атрибутика", "Гобелены, Катаны, Комиксы, Кошельки, Наушники, Пазлы, Плед, Постельное бельё, Футляр для очков"],
-["Косплей", "Костюмы и атрибутика"]];*/
-
-/*
-const cardss = [
-  { title: 'Аниместафф', price: 1500 },
-  { title: 'Дакимакуры', price: 1994 },
-  { title: 'Атрибутика', price: 2000 },
-  { title: 'Косплей', price: 3000 },
-  { title: 'Товар 1', price: 4000 },
-  { title: 'Товар 2', price: 5000 },
-  { title: 'Товар 3', price: 6000 },
-  { title: 'Товар 4', price: 7000 },
-  { title: 'Аниместафф', price: 8000 },
-  { title: 'Дакимакуры', price: 9000 },
-  { title: 'Атрибутика', price: 10000 },
-  { title: 'Косплей', price: 11000 },
-  { title: 'Косплей', price: 12000 },
-];
-*/
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -95,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(4)
   },
   paperLeftBlock: {
-    //height: 100,
+    height: 50,
   },
   paperLeftLeftBlock: {
     //height: 100,
@@ -118,19 +97,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 const pageCount = 12;
-//productList = cards
-//
+
 const optionsSpis = ['Возрастание по цене', 'Убывание по цене', 'Возрастание по названию', 'Убывание по названию'];
 const crd = [1]
 
 function Cosplay(props) {
 
+  const [cartsProd, setCartsProd] = useState([]);
   const [cardss, setCardss] = useState(props.products);
   const [page, setPage] = useState(1);
   const [cards, setList] = useState(cardss); // .slice((page - 1) * (pageCount + 1), page - 1 + pageCount)
 
   const classes = useStyles();
-
 
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
@@ -150,13 +128,25 @@ function Cosplay(props) {
     console.info(`You clicked ${optionsSpis[selectedIndex]}`);
   };
 
- 
+
   useEffect(() => {
-      setList(props.products);
-      setCardss(props.products)
-      setPriceFilter(props.products);
-      setCheckFilter(props.products);
+    setList(props.products);
+    setCardss(props.products)
+    setPriceFilter(props.products);
+    setCheckFilter(props.products);
   }, [props.products]);
+
+  useEffect(() => {
+    var itm = [];
+    for (const item of props.carts) {
+      itm = item;
+      break;
+    }
+    if (Number(itm.length)) {
+      setCartsProd(itm);
+      console.log(itm);
+    }
+  }, [props.carts]);
 
   const handleChange = (event) => {
     const newState = { ...state, [event.target.name]: event.target.checked }
@@ -176,50 +166,6 @@ function Cosplay(props) {
       newProductList2 = cardss;
     }
     else {
-      /*
-      for (const item of checkFilter) {
-        if (newState['checkedA']) {
-          if (item.name === 'Аниместафф') {
-            newProductList = newProductList.concat(item)
-          }
-        }
-        if (newState['checkedB']) {
-          if (item.name === 'Дакимакуры') {
-            newProductList = newProductList.concat(item)
-          }
-        }
-        if (newState['checkedF']) {
-          if (item.name === 'Косплей') {
-            newProductList = newProductList.concat(item)
-          }
-        }
-        if (newState['checkedG']) {
-          if (item.name === 'Атрибутика') {
-            newProductList = newProductList.concat(item)
-          }
-        }
-        for (const item of cardss) {
-          if (newState['checkedA']) {
-            if (item.name === 'Аниместафф') {
-              newProductList2 = newProductList2.concat(item)
-            }
-          }
-          if (newState['checkedB']) {
-            if (item.name === 'Дакимакуры') {
-              newProductList2 = newProductList2.concat(item)
-            }
-          }
-          if (newState['checkedF']) {
-            if (item.name === 'Косплей') {
-              newProductList2 = newProductList2.concat(item)
-            }
-          }
-          if (newState['checkedG']) {
-            if (item.name === 'Атрибутика') {
-              newProductList2 = newProductList2.concat(item)
-            }
-          }
-        }*/
       if (newState['checkedA']) {
         for (const item of checkFilter) {
           if (item.cathegory === 'anime related') {
@@ -285,9 +231,7 @@ function Cosplay(props) {
       newProductList2.sort((a, b) => a.name < b.name ? 1 : -1);
       newProductList.sort((a, b) => a.name < b.name ? 1 : -1);
     }
-    //newProductList.sort((a, b) => a.price > b.price ? 1 : -1); //Суюда нужно вставить сортировку по флажкам, а в фильтре по цене
-    //newProductList2.sort((a, b) => a.price > b.price ? 1 : -1); //сделать не удаление из массива, а добавление элементов в пустой массив, как это сделано в фильтре по чекбоксу
-    setList(newProductList); //сортировка всё ещё нужна, но её, наверное, можно будет сделать через флажок состояния и handle
+    setList(newProductList);
     setPriceFilter(newProductList2);
   };
 
@@ -362,48 +306,7 @@ function Cosplay(props) {
       }
       setList(newProductList4);
       setCheckFilter(newProductList3);
-      
-      //старое удаление
-      /*
-      var newProductList = priceFilter;
-      var min = -2;
-      var max = 100000;
-      for (const item of priceFilter) {
-        if (Number(item.price) < Number(minCost)) {
-          min = priceFilter.indexOf(item);
-          console.log(min, item.price, minCost);
-        } else if (Number(item.price) > Number(maxCost)) {
-          if (max == 100000) {
-            max = priceFilter.indexOf(item);
-          }
-          
-        }
-      }
-      if (min >= 0 && max <= 100000) {
-        newProductList = priceFilter.slice(min + 1, max);
-        console.log(min, max, "2g");
-      }
- 
-      var newProductList2 = cardss;
-      var min2 = -2;
-      var max2 = 100000;
-      for (const item of cardss) {
-        if (Number(item.price) < Number(minCost)) {
-          min2 = cardss.indexOf(item);
-        } else if (Number(item.price) > Number(maxCost)) {
-          if (max2 == 100000) {
-            max2 = cardss.indexOf(item);
-          }
-          
-        }
-      }
-      if (min2 >= 0 && max2 <= 100000) {
-        newProductList2 = cardss.slice(min2 + 1, max2);
-      }*/
-      //setList(newProductList);
-      //setCheckFilter(newProductList2);
-    } //причина неисправности - массив не сортирован, поэтому такая билиберда происходит. Возможно. лучше всего сделать так, чтобы
-    // все сортировки обращались к одному классу, иначе это отихий ужас, а не обработка данных. Да, проблема именно в сортировке со стороны чекбокса. 
+    }  
 
     render() {
       return (<Button type="submit" color="secondary" variant="contained" onClick={(e) => this.onclick(e)}>Фильтр по цене</Button>);
@@ -415,17 +318,23 @@ function Cosplay(props) {
     e.preventDefault()
   }
 
-  /*    onclick() {
-        var newProductList = cards;
-  
-        for (const item of newProductList) {
-          if (Number(item.price) < Number(this.id.inputMin.value)) {
-              newProductList.splice(newProductList.indexOf(item),1);
-          }
-        }
-        setList(newProductList);  
+  const handleLinkToBasket = () =>{
+    window.location.assign('http://localhost:3000/basket');
+  }
+
+  const handleProv = (id) => {
+    const url = "http://localhost/api/carts?prod_id=" + id;
+    props.postProductCartsFetchData(url);
+  }
+
+  function getProv(crd_id){
+    for(const item of cartsProd){
+      if(Number(item.prod_id) == Number(crd_id)){
+        return false;
       }
-  */
+    }
+    return true;
+  }
 
 
   return (
@@ -437,28 +346,6 @@ function Cosplay(props) {
               <Typography className={classes.typographyMainStyle} align="center" variant="h5" color="textPrimary" gutterBottom>
                 Каталог
               </Typography>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ width: 600 }}>
-                  <Autocomplete
-                    freeSolo
-                    id="free-solo-2-demo"
-                    disableClearable
-                    options={cardss.map((option) => option.name)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Search input"
-                        margin="normal"
-                        variant="outlined"
-                        InputProps={{ ...params.InputProps, type: 'search' }}
-                      />
-                    )}
-                  />
-                </div>
-                <Button color="primary">
-                  Применить
-                </Button>
-              </div>
             </Paper>
           </Grid>
         </Grid>
@@ -563,7 +450,6 @@ function Cosplay(props) {
                     <CardMedia component={Link} style={{ textDecoration: 'none' }} to={"/product" + "/" + card.id}
                       className={classes.cardMedia}
                       image={card.image}
-                      //image="https://source.unsplash.com/random"
                       title="Image title" />
                     <CardContent component={Link} style={{ textDecoration: 'none' }} to={"/product" + "/" + card.id} className={classes.cardContent}>
                       <Typography variant="h5" gutterBottom>
@@ -571,9 +457,13 @@ function Cosplay(props) {
                       </Typography>
                     </CardContent>
                     <CardActions>
-                      <Product_button />
+                      {getProv(card.id) ? (
+                        <Button id={"product%" + card.id} onClick={() => handleProv(card.id)}>Добавить</Button>
+                      ) : (
+                        <Button id={"product%2" + card.id} onClick={() => handleLinkToBasket()}>В корзине</Button>
+                      )}
                       <Grid item>
-                        <Typography variant="subtitle1">{card.price}</Typography>
+                        <Typography variant="subtitle1">{card.price + "р"}</Typography>
                       </Grid>
                     </CardActions>
                   </Card>
@@ -593,14 +483,14 @@ function Cosplay(props) {
 
 const mapStaterToProps = state => {
   return {
-    products: state.products
+    products: state.products,
+    carts: state.carts
   };
 }
 
 const mapDispathToProps = dispatch => {
   return {
-    fetchData: url => dispatch(personsFetchData(url))
+    postProductCartsFetchData: url => dispatch(cartsFetchDataPostProduct(url))
   };
 }
 export default connect(mapStaterToProps, mapDispathToProps)(Cosplay);
-//onChange={(event) => handleChangeCostMax(event, event.target.value)}
