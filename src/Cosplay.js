@@ -449,8 +449,11 @@ function Cosplay(props) {
                   <Card className={classes.card}>
                     <div><img src={card.image} /></div>
                     <CardContent component={Link} style={{ textDecoration: 'none' }} to={"/product" + "/" + card.id} className={classes.cardContent}>
-                      <Typography variant="h5" gutterBottom>
+                      <Typography variant="h6" gutterBottom>
                         {card.name}
+                      </Typography>
+                      <Typography variant="h7" gutterBottom>
+                        {card.cathegory}
                       </Typography>
                     </CardContent>
                     <CardActions>
