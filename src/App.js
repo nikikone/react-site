@@ -45,7 +45,7 @@ class App extends Component {
           <Switch>
             {this.props.products.map((card, index) => (
               <Route path={"/Product/" + card.id}>
-                <Product cardess={card} />
+                <Product cardess={card} cartes = {this.props.carts} />
               </Route>
             ))}
 
