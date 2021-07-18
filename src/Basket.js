@@ -95,8 +95,8 @@ function Basket(props) {
     const handleDelete = (id) => {
         const url = "http://localhost/api/carts/delete/" + id;
         props.deleteCartsFetchData(url);
-        if(cards.length <=1){
-            setTimeout(()=>{
+        if (cards.length <= 1) {
+            setTimeout(() => {
                 window.location.assign('http://localhost:3000/');
             }, 1000)
         }
@@ -104,11 +104,17 @@ function Basket(props) {
 
     return (
         <div>
-            <Container className={classes.cardGrid} maxWidth="lg" >
+            <Container className={classes.cardGrid} maxWidth="lg">
                 <Typography className={classes.typographyMainStyle} align="center" variant="h4" color="textPrimary" gutterBottom>
                     Корзина
                 </Typography>
                 <Container className={classes.cardGrid} maxWidth="md">
+                    <div style={{ display: 'flex', flexDirection: 'column' }}><div><Typography gutterBottom variant="subtitle1">
+                        Общая цена: {props.carts.map((card, index) => card.sum)}р
+                    </Typography>
+                    </div>
+                        <Formalization_button />
+                    </div>
                     <Grid container spacing={4} >
                         {cards.map((card) => (
                             <Paper className={classes.paper} /*</Grid>*className={classes.cardGrid}*/>
@@ -136,18 +142,13 @@ function Basket(props) {
                                             </Grid>
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="subtitle1">{product.length > 1 ? (<div>{Number(product[card.prod_id - 1].price)*Number(card.quantity)}р</div>) : (<div></div>)}</Typography>
+                                            <Typography variant="subtitle1">{product.length > 1 ? (<div>{Number(product[card.prod_id - 1].price) * Number(card.quantity)}р</div>) : (<div></div>)}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
                             </Paper>
                         ))}
                     </Grid>
-                    <div><Typography gutterBottom variant="subtitle1">
-                        Общая цена: {props.carts.map((card, index) => card.sum)}
-                    </Typography>
-                    </div>
-                    <Formalization_button />
                 </Container>
             </Container>
         </div>
