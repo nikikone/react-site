@@ -7,8 +7,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-
+import { cartsFetchDataPostProduct, } from './actions/carts';
+import { cartsFetchDataDelete } from './actions/carts';
 import Dialog from '@material-ui/core/Dialog';
+import { useState } from 'react';
+import { useEffect, useRef } from 'react'
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -49,13 +53,16 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export default function Formalization() {
+function Formalization(props) {
     const classes = useStyles();
+
+    const [cards, setCards] = React.useState([]);
+
     const [state, setState] = React.useState({
         checkedA: true,
     })
     const [FullName, setFullName] = React.useState('')
-    const [Number, setNumber] = React.useState('')
+    const [Numbers, setNumbers] = React.useState('')
     const [Mail, setMail] = React.useState('')
     const [City, setCity] = React.useState('')
     const [Street, setStreet] = React.useState('')
@@ -71,12 +78,44 @@ export default function Formalization() {
     const [FlatError, setFlatError] = React.useState(false)
     const [open, setOpen] = React.useState(false)
 
+    useEffect(() => {
+        var itm = [];
+        var stt = 0;
+        for (const item of props.carts) {
+            stt = stt + 1;
+            if (Number(stt) == 2) {
+                itm = item;
+                break;
+            }
+        }
+        setCards(itm);
+        console.log(itm);
+    }, [props.carts]);
+
     const handleChange = (event) => {
         setState({ ...state, [event.target.name]: event.target.checked });
     };
 
     const handleClose = () => {
         setOpen(false);
+    }
+
+    const handleAddCarts = () => {
+        const url = "http://localhost/api/carts?prod_id=1";
+        props.postProductCartsFetchData(url);
+    }
+
+    const handleDelete = () => {
+        const url = "http://localhost/api/carts/delete/1";
+        props.deleteCartsFetchData(url);
+    }
+
+    const handleFormalization = () => {
+        const url = "http://127.0.0.1/api/carts/submit/1?commentary=" + Comment + "&city=" + City + "&street=" + Street + "&house=" + House + "&room=" + Flat + "&email=" + Mail + "&phone=" + Numbers + "&name=" + FullName;
+        fetch(url, {
+            method: 'PUT'
+        })
+
     }
 
     class Validation_button extends React.Component {
@@ -99,7 +138,7 @@ export default function Formalization() {
             }
 
             var z2 = /^[\+7|8]\d{10}$/;
-            if (!(z2.test(Number))) {
+            if (!(z2.test(Numbers))) {
                 bul = false;
                 setNumberError(true);
             }
@@ -141,6 +180,14 @@ export default function Formalization() {
 
             if (bul) {
                 setOpen(true);
+                handleFormalization();
+                setTimeout(()=>{
+                    handleAddCarts()
+                }, 2000)
+                setTimeout(()=>{
+                    handleDelete()
+                }, 2000)
+                window.location.assign('http://localhost:3000/');
             }
         }
 
@@ -173,7 +220,7 @@ export default function Formalization() {
                             />
                             <TextField
                                 required
-                                onChange={(e) => setNumber(e.target.value)}
+                                onChange={(e) => setNumbers(e.target.value)}
                                 id="outlined-number1"
                                 label="Номер телефона"
                                 type="number"
@@ -243,7 +290,7 @@ export default function Formalization() {
                             />
                         </form>
                         <Typography>
-                            Общая стоимость заказа:
+                            Общая стоимость заказа: {cards.sum + "р"}
                         </Typography>
                         <FormControl required error={error} component="fieldset" className={classes.formControl}>
                             <FormControlLabel
@@ -265,3 +312,16 @@ export default function Formalization() {
         </div >
     )
 }
+
+const mapStaterToProps = state => {
+    return {
+        carts: state.carts,
+    };
+}
+const mapDispathToProps = dispatch => {
+    return {
+        deleteCartsFetchData: url => dispatch(cartsFetchDataDelete(url)),
+        postProductCartsFetchData: url => dispatch(cartsFetchDataPostProduct(url))
+    };
+}
+export default connect(mapStaterToProps, mapDispathToProps)(Formalization);
