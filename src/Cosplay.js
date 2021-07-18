@@ -476,9 +476,8 @@ function Cosplay(props) {
             </Grid>
 
           </div>
-
+          <Pagination count={Math.ceil(cards.length / pageCount)} page={page} className={classes.myUl} classes={{ ul: classes.myUl }} onChange={handlePaginationChange} />
         </Container>
-        <Pagination count={Math.ceil(cards.length / pageCount)} page={page} className={classes.myUl} classes={{ ul: classes.myUl }} onChange={handlePaginationChange} />
       </main>
     </>
   )
