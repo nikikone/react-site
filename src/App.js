@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import FcomponentMain from './FcomponentMain';
 
 import Cosplay from './Cosplay'
-import Catalog from './Catalog'
 import Product from './Product'
 import Basket from './Basket'
 import Formalization from './Formalization'
