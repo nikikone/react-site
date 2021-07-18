@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paperLeftLeftBlock: {
     //height: 100,
-    width: 500,
+    width: 310,
     marginRight: 20
   },
   paperRightBlock: {
@@ -357,7 +357,7 @@ function Cosplay(props) {
         <Container className={classes.cardGrid} maxWidth="lg">
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Paper className={classes.paperLeftLeftBlock} >
-              <Grid container direction="column" alignItems="center" xs={8} sm={4} md={3} >
+              <Grid container direction="column" alignItems="center">
                 <Typography className={classes.typographyMainStyle} align="center" variant="h5" color="textPrimary" gutterBottom>
                   Фильтры
                 </Typography>
@@ -399,8 +399,8 @@ function Cosplay(props) {
                     label="Атрибутика"
                   />
                 </FormGroup>
-                <Grid container direction="column" alignItems="center" xs={8} sm={4} md={18} >
-                  <Grid item xs={12}>
+                <Grid container direction="column" alignItems="center" >
+                  <Grid item>
                     <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
                       <Button onClick={handleClick}>{optionsSpis[selectedIndex]}</Button>
                       <Button
