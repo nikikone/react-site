@@ -306,7 +306,7 @@ function Cosplay(props) {
       }
       setList(newProductList4);
       setCheckFilter(newProductList3);
-    }  
+    }
 
     render() {
       return (<Button type="submit" color="secondary" variant="contained" onClick={(e) => this.onclick(e)}>Фильтр по цене</Button>);
@@ -318,7 +318,7 @@ function Cosplay(props) {
     e.preventDefault()
   }
 
-  const handleLinkToBasket = () =>{
+  const handleLinkToBasket = () => {
     window.location.assign('http://localhost:3000/basket');
   }
 
@@ -327,9 +327,9 @@ function Cosplay(props) {
     props.postProductCartsFetchData(url);
   }
 
-  function getProv(crd_id){
-    for(const item of cartsProd){
-      if(Number(item.prod_id) == Number(crd_id)){
+  function getProv(crd_id) {
+    for (const item of cartsProd) {
+      if (Number(item.prod_id) == Number(crd_id)) {
         return false;
       }
     }
@@ -447,10 +447,7 @@ function Cosplay(props) {
               {cards.slice(page * pageCount - pageCount, page * pageCount).map((card) => (
                 <Grid item key={card} xs={8} sm={4} md={3}>
                   <Card className={classes.card}>
-                    <CardMedia component={Link} style={{ textDecoration: 'none' }} to={"/product" + "/" + card.id}
-                      className={classes.cardMedia}
-                      image={card.image}
-                      title="Image title" />
+                    <div><img src={card.image} /></div>
                     <CardContent component={Link} style={{ textDecoration: 'none' }} to={"/product" + "/" + card.id} className={classes.cardContent}>
                       <Typography variant="h5" gutterBottom>
                         {card.name}
