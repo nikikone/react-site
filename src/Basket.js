@@ -28,9 +28,10 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     paper: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(5),
         margin: 'auto',
-        maxWidth: 500,
+        width: 500,
+        height: 200
     },
     image: {
         width: 128,
