@@ -109,10 +109,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        "Здесь должен быть текст"
-        {
-          this.props.carts.map((card, index) => card.sum)
-        }
         <Router>
           <FcomponentMain />
           <Switch>
