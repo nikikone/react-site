@@ -77,6 +77,7 @@ function Formalization(props) {
     const [HouseError, setHouseError] = React.useState(false)
     const [FlatError, setFlatError] = React.useState(false)
     const [open, setOpen] = React.useState(false)
+    const [openTwo, setOpenTwo] = React.useState(false)
 
     useEffect(() => {
         var itm = [];
@@ -89,7 +90,6 @@ function Formalization(props) {
             }
         }
         setCards(itm);
-        console.log(itm);
     }, [props.carts]);
 
     const handleChange = (event) => {
@@ -98,6 +98,7 @@ function Formalization(props) {
 
     const handleClose = () => {
         setOpen(false);
+        setOpenTwo(false);
     }
 
     const handleAddCarts = () => {
@@ -120,6 +121,13 @@ function Formalization(props) {
 
     class Validation_button extends React.Component {
         onclick() {
+
+
+
+            if (Number(cards.sum) < 10) {
+                setOpenTwo(true);
+                return;
+            }
 
             setFullNameError(false);
             setNumberError(false);
@@ -177,14 +185,14 @@ function Formalization(props) {
                 bul = false;
                 //
             }
-
-            if (bul) {
+            console.log("Всётаки прошла")
+            if (bul && Number(cards.sum) > 10) {
                 setOpen(true);
                 handleFormalization();
-                setTimeout(()=>{
+                setTimeout(() => {
                     handleAddCarts()
                 }, 2000)
-                setTimeout(()=>{
+                setTimeout(() => {
                     handleDelete()
                 }, 2000)
                 window.location.assign('http://localhost:3000/');
@@ -302,6 +310,12 @@ function Formalization(props) {
                         <Validation_button />
                         <Dialog open={open} onClose={handleClose} aria-lableby="form-dialog-title">
                             <DialogTitle id="form-dialog-title">Верификация прошла успешно!</DialogTitle>
+                            <DialogActions>
+                                <Button onClick={handleClose} color="primary">Закрыть</Button>
+                            </DialogActions>
+                        </Dialog>
+                        <Dialog open={openTwo} onClose={handleClose} aria-lableby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title2">Заказ нельзя оформить, пока пуста корзина</DialogTitle>
                             <DialogActions>
                                 <Button onClick={handleClose} color="primary">Закрыть</Button>
                             </DialogActions>
