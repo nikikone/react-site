@@ -112,7 +112,7 @@ function Cosplay(props) {
 
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(3);
   const [state, setState] = useState({
     checkedA: false,
     checkedB: false,
@@ -130,10 +130,13 @@ function Cosplay(props) {
 
 
   useEffect(() => {
-    setList(props.products);
-    setCardss(props.products)
-    setPriceFilter(props.products);
-    setCheckFilter(props.products);
+    const var1 = props.products;
+
+    var1.sort((a, b) => a.name < b.name ? 1 : -1);
+    setList(var1);
+    setCardss(var1)
+    setPriceFilter(var1);
+    setCheckFilter(var1);
   }, [props.products]);
 
   useEffect(() => {
