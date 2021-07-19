@@ -88,6 +88,7 @@ function Product(props) {
                             display: 'flex', flexDirection: 'column',
                             marginLeft: 'auto',
                             marginRight: 'auto',
+                            width: 200
                         }}>
                             {cards.map((card) => (
                                 <Grid item key={card} >
