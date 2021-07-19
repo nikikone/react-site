@@ -101,6 +101,12 @@ function Formalization(props) {
         setOpenTwo(false);
     }
 
+    const handleCloseFirst = () =>{
+        setOpen(false);
+        setOpenTwo(false);
+        window.location.assign('http://localhost:3000/');
+    }
+
     const handleAddCarts = () => {
         const url = "http://localhost/api/carts?prod_id=1";
         props.postProductCartsFetchData(url);
@@ -195,7 +201,6 @@ function Formalization(props) {
                 setTimeout(() => {
                     handleDelete()
                 }, 2000)
-                window.location.assign('http://localhost:3000/');
             }
         }
 
@@ -311,7 +316,7 @@ function Formalization(props) {
                         <Dialog open={open} onClose={handleClose} aria-lableby="form-dialog-title">
                             <DialogTitle id="form-dialog-title">Верификация прошла успешно!</DialogTitle>
                             <DialogActions>
-                                <Button onClick={handleClose} color="primary">Закрыть</Button>
+                                <Button onClick={handleCloseFirst} color="primary">Закрыть</Button>
                             </DialogActions>
                         </Dialog>
                         <Dialog open={openTwo} onClose={handleClose} aria-lableby="form-dialog-title">
