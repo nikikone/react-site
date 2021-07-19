@@ -60,14 +60,14 @@ function Product(props) {
     useEffect(() => {
         var itm = [];
         for (const item of props.carts) {
-          itm = item;
-          break;
+            itm = item;
+            break;
         }
         if (Number(itm.length)) {
-          setCartsProd(itm);
-          console.log(itm);
+            setCartsProd(itm);
+            console.log(itm);
         }
-      }, [props.carts]);
+    }, [props.carts]);
 
     return (
         <>
@@ -78,20 +78,21 @@ function Product(props) {
                     </Typography>
                 </Container>
                 <main>
-                    <div style={{ display: 'flex', flexDirection: 'column' }} style={{
+                    <div style={{
+                        display: 'flex', flexDirection: 'column',
                         marginLeft: 'auto',
                         marginRight: 'auto',
                         width: '50em'
                     }}>
-                        <Grid container spacing={4} >
+                        <Grid container spacing={4} style={{
+                            display: 'flex', flexDirection: 'column',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                        }}>
                             {cards.map((card) => (
-                                <Grid item key={card} xs={8} sm={4} md={7}>
+                                <Grid item key={card} >
                                     <Card className={classes.card}>
-                                        <CardMedia
-                                            className={classes.cardMedia}
-                                            image={props.cardess.image}
-                                            //image="https://source.unsplash.com/random"
-                                            title="Image title" />
+                                        <div><img src={props.cardess.image} alt="cur" /></div>
                                     </Card>
 
                                 </Grid>
